@@ -1,3 +1,6 @@
 # Struktur-Data-A-2022
 
-Materi Stack & Queue
+Nama  : Besse Sahriyuni 
+Nim   : H0712211008
+Kelas : Struktur Data A
+Materi: Stack & Queue
