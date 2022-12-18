@@ -1,0 +1,219 @@
+Nama : Besse Sahriyuni
+Nim  : H071211008
+Kelas: Struktur Data A
+__________________________________________________________________________________________________________________________________________________________
+RANGKUMAN MATERI
+TUMPUKAN & ANTRIAN (STACK & QUEUE)
+
+STACK (TUMPUKAN)
+Stack (tumpukan) sebenarnya secara mudah dapat diartikan sebagai list (urutan) dimana penambahan dan pengambilan elemen hanya dilakukan pada satu sisi 
+yang disebut top (puncak) dari stack.
+
+Dengan melihat definisi tersebut maka jelas bahwa pada stack berlaku aturan LIFO (Last In First Out), yaitu elemen yang terakhir masuk akan pertama kali 
+diambil atau dilayani. Salah satu analogi yang dapat dikemukakan di sini adalah tumpukan piring atau barang lain. Pada saat kita hendak menumpuk piring-
+piring tersebut tentulah yang kita lakukan adalah meletakkan piring pertama pada tempatnya, selsnjutnya meletakkan piring kedua di atas piring pertama 
+dan demikian seterusnya. Pada saat kita hendak mengambil satu piring dari tumpukan tersebut, tentu yang diambil adalah piring teratas (yang terakhir kali 
+ditaruh), bukan yang terbawah (yang pertama kali diletakkan).
+
+Dua operasi dasar pada stack adalah PUSH (operasi pemasukan elemen ke dalam stack) dan POP (operasi pengambilan satu elemen dari dalam stack). Di bawah 
+ini diberikan contoh pemakaian operasi PUSH dan POP dan isi stack untuk setiap selesai eksekusi satu operasi.
+(Untuk mempermudah penulisan, di bawah ini isi stack tidak dituliskan secara bertumpuk, tetapi dengan kesepakatan:
+
+- elemen paling kanan adalah elemen yang ada pada TOS (Top Of the Stack)
+- stack yang dipakai bernama S
+- PUSH(S,B) berarti memasukkan elemen B ke dalam stack S
+- POP(B,S) berarti mengambil elemen dari stack S dan menaruhnya ke dalam variabel B
+
+Operasi yang dilakukan	Isi Stack	Keterangan
+Kondisi Awal		kosong		-
+PUSH('A',S)		A		-
+PUSH('B',S)		AB		-
+PUSH('C',S)		ABC		-
+POP(Data,S)		AB		Variabel Data berisi 'C'
+PUSH('D',S)		ABD		-
+POP(Data,S)		AB		Data berisi 'D'
+POP(Data,S)		A		Data berisi 'B'
+
+
+IMPLEMENTASI STACK DALAM BAHASA PASCAL
+Implementasi dalam bahasa Pascal dapat dilakukan dengan memanfaatkan struktur data record dan array. Array dipergunakan untuk menyimpan elemen-elemen 
+yang dimasukkan. Selain itu diperlukan pula suatu variabel untuk mencatat banyaknya elemen yang adadi dalam array yang sekaligus menunjukkan TOS. Pada 
+implementasi di bawah ini:
+- konstanta maxelm menyatakan banyaknya elemen maksimum yang dapat ditampung oleh stack
+- typeelemen adalah tipe data yang akan disimpan di dalam stack (bisa integer, word, real, boolean, char , string atau lainya)
+- banyak adalah field yang menyatakan banyaknya elemen dalam stack saat itu, yang sekaligus menyatakan TOS
+
+Deklarasi tipe untuk tumpukan (stack):
+type tumpukan = record
+   banyak :0..maxelm;
+   elemen : array[1..maxelm] of typeelemen;
+end;
+
+Selain prosedur untuk POP dan PUSH, kita dapat pula menambahkan sejumlah fungsi untuk membantu penanganan kesalahan diantaranya adalah fungsi PENUHS 
+(untuk mengecek apakah stack penuh) fungsi KOSONGS (untuk mengecek apakah stack kosong) dan fungsi SIZES (untuk mengetahui banyaknya elemen di dalam 
+stack). Masing-masing sub program di atas dapat disajikan pseudocode-nya sebagai berikut:
+________________________________________________________________________________________________________________________________________________________
+
+Procedure Inisialisasi(var S : tumpukan);
+begin
+  S. banyak¬ 0
+end;
+________________________________________________________________________________________________________________________________________________________
+Function PENUHS(S : tumpukan): boolean;
+begin
+ Jika S.banyak = maxelm maka PENUHS ¬ true
+ else PENUHS ¬false
+end;
+________________________________________________________________________________________________________________________________________________________
+Function KOSONGS(S : tumpukan):boolean;
+begin
+ If S.banyak = 0 then KOSONGS ¬ true
+ else KOSONGS¬false
+end;
+________________________________________________________________________________________________________________________________________________________
+Procedure PUSH(data : tipeelemen; var S : tumpukan);
+begin
+ If not KOSONGS(S) then
+ begin
+S.banyak ¬ S.banyak +1
+S.elemen[S.banyak]¬data
+ end
+ else
+   Tampilkan pesan kesalahan "Stack Penuh"
+end;
+________________________________________________________________________________________________________________________________________________________
+Procedure POP(var S : tumpukan; var data : typeelemen);
+begin
+ If not KOSONGS(S) then
+ begin
+data¬S.elemen[S.banyak]
+S.banyak ¬ S.banyak - 1
+ end
+ else
+   Tampilkan pesan kesalahan "Stack kosong"
+End;
+_______________________________________________________________________________________________________________________________________________________
+
+
+QUEUE (ANTRIAN)
+Queue atau antrian sebenarnya juga merupakan suatu list. Salah satu sifat yang membedakan queue dengan stack adalah bahwa pada queue penambahan elemen 
+dilakukan pada salah satu ujung (ujung depan) dan pengambilan dilakukan pada ujung yang lain (ujung belakang) . Dengan demikian queue menggunakan prinsip 
+FIFO (First In First Out), yaitu elemen yang pertama masuk akan pertama kali pula dikeluarkan.
+
+Seperti pada stack, operasi-operasi dasar pada queue adalah operasi penambahan elemen ( sebut "ADDQ") dan operasi pengambilan elemen (sebut DELQ). Di bawah 
+ini diberikan contoh pemakaian operasi PUSH dan POP dan isi stack untuk setiap selesai eksekusi satu operasi.
+(Untuk mempermudah penulisan, di bawah ini isi queue tidak dituliskan secara bertumpuk, tetapi dengan kesepakatan:
+
+- elemen paling kanan adalah elemen yang ada pada ujung belakang (yang terakhir kali masuk)
+- queue yang dipakai bernama Q
+- ADDQ(Q,B) berarti memasukkan elemen B ke dalam queue Q
+- DELQ(B,Q) berarti mengambil elemen dari queue Q dan menaruhnya ke dalam variabel B
+
+Operasi yang dilakukan	Isi Queue	Keterangan
+Kondisi Awal		kosong		-
+ADDQ('A',Q)		A		-
+ADDQ('B',Q)		AB		-
+ADDQ('C',Q)		ABC		-
+DELQ(Data,Q)		BC		Variabel Data berisi 'A'
+ADDQ('D',Q)		BCD		-
+DELQ(Data,Q)		CD		Data berisi 'B'
+POP(Data,S)		D		Data berisi 'C'
+
+
+IMPLEMENTASI QUEUE DALAM BAHASA PASCAL
+Implementasi dalam bahasa Pascal dapat dilakukan dengan memanfaatkan struktur data record dan array. Array dipergunakan untuk menyimpan elemen-elemen yang 
+dimasukkan. Selain itu diperlukan pula suatu variabel untuk mencatat banyaknya elemen yang ada di dalam array. Pada implementasi di bawah ini:
+- konstanta maxelm menyatakan banyaknya elemen maksimum yang dapat ditampung oleh queue
+- typeelemen adalah tipe data yang akan disimpan di dalam queue(bisa integer, word, real, boolean, char , string atau lainya)
+- banyak adalah field yang menyatakan banyaknya elemen dalam queue saat itu
+- queue diimplementasikan sebagai array linier dengan memandang bahwa elemen terdepan selalu berada pada sel pertama (implementasi fisik), sehingga bila 
+terjadi pengambilan satu elemen maka semua elemen di belakang elemen terambil (bila ada) harus digeser ke depan satu langkah
+
+Deklarasi tipe untuk antrian (queue):
+type antrian= record
+   banyak :0..maxelm;
+   elemen : array[1..maxelm] of typeelemen;
+end;
+
+Selain prosedur untuk ADDQ dan DELQ, kita dapat pula menambahkan sejumlah fungsi untuk membantu penanganan kesalahan diantaranya adalah fungsi PENUHQ 
+(untuk mengecek apakah antrian penuh) fungsi KOSONGQ (untuk mengecek apakah antrian kosong) dan fungsi SIZEQ (untuk mengetahui banyaknya elemen di dalam 
+queue). Masing-masing sub program di atas dapat disajikan pseudocode-nya sebagai berikut:
+___________________________________________________________________________________________________________________________________________________________
+Procedure Inisialisasi(var q : antrian);
+begin
+  Q. banyak ¬ 0
+end;
+___________________________________________________________________________________________________________________________________________________________
+Function PENUHQ(q : antrian): boolean;
+begin
+ Jika Q.banyak = maxelm maka PENUHQ ¬ true
+ else PENUHQ¬false
+end;
+___________________________________________________________________________________________________________________________________________________________
+Function KOSONGQ(q : antrian):boolean;
+begin
+ If Q.banyak = 0 then KOSONGQ ¬ true
+ else KOSONGQ ¬ false
+end;
+___________________________________________________________________________________________________________________________________________________________
+Procedure ADDQ(data : tipeelemen; var q : antrian);
+begin
+ If not PENUHQ(Q) then
+ begin
+Q.banyak¬ Q.banyak+1
+Q.elemen[Q.banyak] ¬ data
+ end
+ else
+   Tampilkan pesan kesalahan "Antrian Penuh"
+end;
+__________________________________________________________________________________________________________________________________________________________
+Procedure DELQ(var q : antrian; var data : typeelemen);
+begin
+ If not KOSONGS(Q) then
+ begin
+data ¬Q.elemen[1]
+for i:= 2 to Q.banyak
+Q.elemen[i-1] ¬ Q.elemen[i]
+Q.banyak ¬ Q.banyak- 1
+ end
+ else
+   Tampilkan pesan kesalahan "Antrian kosong"
+End;
+__________________________________________________________________________________________________________________________________________________________   
+
+Dengan melihat implementasi di atas kita dapat merasakan adanya ketidakefisienan, yaitu bahwa untuk mengambil satu elemen dari queue kita harus menggeser 
+sisa elemen yang sebenarnya tidak menjadi perhatian kita. Untuk data yang sedikit mungkin ini tidak terasa, tetapi untuk data yang banyak maka 
+ketidakefisienan ini akan tampak jelas.
+Untuk mengatasi permasalahan di atas kita dapat menggunakan implementasi queue berputar, yaitu dengan membiarkan sel tetap kosong bila elemen pada sel 
+tersebut baru saja diambil. Bagaimanakah implementasi queue berputar? Perhatikan implementasi di bawah ini.
+
+type antrian_putar= record
+   depan,belakang,banyak :0..maxelm;
+   elemen : array[1..maxelm] of typeelemen;
+end;
+
+Field depan dan belakang masing-masing adalah untuk mencatat lokasi elemen terdepan (yang akan diambil berikutnya) dan lokasi elemen paling belakang 
+(elemen terakhir kali masuk)
+__________________________________________________________________________________________________________________________________________________________
+Procedure ADDQ(data : tipeelemen; var q : antrian_putar);
+begin
+ If not PENUHQ(Q) then
+ begin
+Q.belakang ¬ (Q.belakang mod maxelm)+1
+Q.elemen[Q.belakang] ¬ data
+ end
+ else
+   Tampilkan pesan kesalahan "Antrian Penuh"
+end;
+__________________________________________________________________________________________________________________________________________________________
+Procedure DELQ(var q : antrian_putar; var data : typeelemen);
+begin
+ If not KOSONGS(Q) then
+ begin
+data ¬ Q.elemen[Q.depan]
+Q.banyak ¬ Q.banyak- 1
+Q.depan ¬ (Q.depan mod maxelm)+1
+ end
+ else
+   Tampilkan pesan kesalahan "Antrian kosong"
+End;
